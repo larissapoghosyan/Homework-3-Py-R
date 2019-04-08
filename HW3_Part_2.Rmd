@@ -1,0 +1,220 @@
+---
+title: "R_Homework_1"
+author: " "
+date: "March 31, 2019"
+output: html_document
+---
+For this part of the homework assignment, you are required to submit both R Markdown and HTML files with your answer codes in it. When submitting, be sure that the .Rmd file works, so when we run it, there are no errors, and it will contain the same information as the HTML one. 
+
+Problem 1.
+Load the built-in dataset "mtcars" by command data(mtcars). 
+Check the class of the dataset, and if it is not a dataframe, make it a dataframe. 
+Add to the dataframe a new factor type column "mpgfactor" to convert the values of column "mpg" to "high" when the value is greater than 22, "medium" when the value is greater than 12, else convert to "low" using ifelse() function (Hint: you are going to use nested ifelse() function. Search for it.). 
+You can do this in 3 lines of code.
+
+```{r}
+# Start code here
+data(mtcars)
+class(data(mtcars))
+cbind(data(mtcars))
+mtcars<-data.frame(cbind(mtcars))
+mtcars
+
+mtcars[,"mpgfactor"]<-ifelse(mtcars$mpg>22,"high",ifelse((mtcars$mpg>12)&(mtcars$mpg<22 "medium" "low")
+                                                         
+
+
+```
+
+
+Problem 2.
+Generate a vector containing even numbers from 2 to 50 inclusive (Hint! use seq function). 
+Build a 5x5 matrix and populate it with the vector generated above in row-major order. 
+Check whether R stored it as a matrix. 
+Print the element at the intersection of row 3 and column 4.
+
+```{r}
+# Start code here
+vct<-seq(2,50,by=2) #vector goes here yo
+
+matr <- matrix(vct, nrow = 5,byrow = TRUE) #row-wise ordered 5x5 Matric, 
+class(matr) #checked,
+matr[3,4] #as simple as this:
+
+```
+
+Problem 3.
+Write a function that takes "x" as an argument and returns vector "y" containing all the divisors of "x". 
+Hint! x%%y expression shows the remainder when x is divided by y.
+
+
+```{r}
+# Start code here
+divx <- function(x) {
+  vct<-c(0:x)
+  y<-x%%vct==0
+  y<-vct[y]
+  return(y)
+}
+
+divx(20) #for experimental purposes:d 
+```
+
+Problem 4.
+Write a function to divide the below-given input list of ages between 0 and 70 into 4 groups.
+
+Baby Boomers - (50 to 70 years old]
+Generation X - (34 to 50 years old]
+Generation Y - (18 to 34 years old]
+Generation Z - 0 to 18 years old
+
+Return a named list with 4 elements where the element name is the group name and element value is the vector of ages in that group.
+Hint: you can use the python code from your first homework and rewrite it in R.
+```{r}
+ls<-c(18,29,3,14,69,10,1,58,52,23,24,5,65)
+# Start code here
+dty<-function(arg){
+  lis<-list()
+  for(i in arg){
+    if(50<i&i<=70){
+      lis[["Group1"]]=append(lis[["Group1"]], i)
+      
+    } else if(34<i&i<=50){
+      lis[["Group2"]]=append(lis[["Group2"]], i)
+      
+    } else if(18<i&i<=34){
+      lis[["Group3"]]=append(lis[["Group3"]], i)
+      
+    }else{
+      lis[["Group4"]]=append(lis[["Group4"]], i)
+      
+    }
+    return(lis)
+  }
+}     #I HAVE NO CLUE WHY THE CODE DOESNT WORK,NO WAY;
+
+#experiment with the code
+dty(ls)
+
+```
+
+Problem 5.
+Write a while loop starting with x = 0. The loop prints all numbers up to 15 but it skips number 5.
+
+```{r}
+# Start code here
+x=0
+while(x<=15){
+  if(x==5){
+    x<-x+1
+    next
+  }
+  print(x)
+  x<-x+1
+}    #yo
+
+```
+
+Problem 6.
+Write a repeat loop that exactly 10 times prints a random number between 0 and 1 using runif(1) function.
+
+```{r}
+# Start code here
+x<-1
+
+repeat{
+  print(x)
+  x=x+1
+  if(x==11){
+    break
+  }  #repeat loop uses break statement to stop the iteration
+}
+```
+
+
+Problem 7.
+Use "foreach" library for this task.
+a. Create a new vector by combining the name with the corresponding surname based on vectors 'a' and 'b'.
+b. Filter vector "c"" to keep only the numbers that are divisible by 10. Hint: use foreach nesting operator and when condition. Make sure that the output is a vector.
+
+```{r}
+# a.
+a<-c("Ani","Anna","Azat","Armen")
+b<-c("Abajyan","Alikhanyan","Asatryan","Amiryan")
+# Start code here
+ fullnm<-foreach(a,b,.combine = c) %do% paste(a,b)
+fullnm
+
+# b.
+n<-c(1:1000) #I think c is reserved, Ive got an infinite loop or something:/
+# Start code here
+n <- foreach(y=n, .combine=c) %:% when(y%%10==0) %do% y
+n 
+       
+```
+
+
+Problem 8.
+Create a multiplication table for the integers 1 to 12 using "foreach"" library.
+Change the index and column names by naming them "One", "Two",..., "Twelve".
+
+```{r}
+# Start code here
+m<-c(1:12)
+
+multpl<-foreach(n=m, .combine = rbind) %:% foreach(x=m) %do% (n * x)
+
+#questions
+
+```
+
+Problem 9.
+Write an R program to create a vector which contains 10 random integer values between -10 and +10 using sample() function.
+Using a method of subsetting get all positive numbers and afterward order them.
+
+```{r}
+# Start code here
+x<-(sample(-10:10,size = 10))
+
+k<-x[x>0]
+
+k[order(k)]
+
+```
+
+Problem 10.
+Load dataset mtcars with data("mtcars") command.
+Print the dataset.
+a. Filter the dataframe by rows with "mpg" greater than or equal to 15 miles per gallon.
+b. Filter "mtcars" for rows with "cyl" less than "7" and "gear" equal to "4".
+c. Delete column "am".
+d. Use subsetting to make 0 all the values less than 3 in column "wt".
+e. Rename all the columns of mtcars dataset from 1 to 10 except column "hp". So "mpg" will become 1,"cyl" will become 2 and so on.
+```{r}
+# Start code here
+data("mtcars")
+
+#a.
+mtcars<-subset(mtcars,mpg>=15)
+
+#b.
+mtcars<-subset(mtcars,(cyl<7)&(gear=4))
+
+#c.
+mtcars$am = NULL  #keeping
+
+#d. 
+mtcars$wt[mtcars$wt>3]<-0
+          
+#e
+
+```
+
+
+
+
+
+
+
+
+
